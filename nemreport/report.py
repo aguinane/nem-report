@@ -5,16 +5,17 @@ from calendar import monthrange
 from datetime import datetime, time
 from pathlib import Path
 
-import calplot
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import polars as pl
+from great_tables import GT
 from jinja2 import Environment, FileSystemLoader
 from nemreader import extend_sqlite
 from nemreader.output_db import get_nmis
-import polars as pl
 
-from great_tables import GT, md, html
+from energycharts import daily_calendar_chart
+
 from .model import (
     DB_PATH,
     db,
@@ -66,22 +67,8 @@ def build_daily_usage_chart(nmi: str, kind: str) -> Path | None:
 
     if kind == "export" and max(data) == 0.0:
         return None
-
-    vmin = max(-35, min(data))
-    vmax = min(35, max(data))
-
-    data = pd.Series(data, index=days)
-    plot = calplot.calplot(
-        data,
-        suptitle=f"Daily kWh for {nmi} ({kind})",
-        how=None,
-        vmin=vmin,
-        vmax=vmax,
-        cmap="YlOrRd",
-        daylabels="MTWTFSS",
-        colorbar=True,
-    )
-    fig = plot[0]
+    
+    fig = daily_calendar_chart(days, values=data, title=f"Daily kWh for {nmi} ({kind})")
     file_path = output_dir / f"{nmi}_daily_{kind}.png"
     fig.savefig(file_path, bbox_inches="tight")
     log.info("Created %s", file_path)
