@@ -41,7 +41,7 @@ Source = "https://github.com/aguinane/energy-report"
 nemreport = "nemreport.cli:app"
 
 [tool.pytest.ini_options]
-addopts = "-ra --failed-first --showlocals --durations=3 --cov=nemreport"
+addopts = "-ra --failed-first --showlocals --durations=3 --cov=nemreport --cov=energycharts"
 
 [tool.coverage.run]
 omit = ["*/version.py", '*/__main__.py']

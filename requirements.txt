@@ -2,6 +2,8 @@
 #    uv pip compile pyproject.toml -o requirements.txt --all-extras
 annotated-types==0.7.0
     # via pydantic
+babel==2.17.0
+    # via great-tables
 calplot==0.1.7.5
     # via nemreport (pyproject.toml)
 click==8.1.8
@@ -11,14 +13,28 @@ click==8.1.8
     #   typer
 click-default-group==1.2.4
     # via sqlite-utils
+commonmark==0.9.1
+    # via great-tables
 contourpy==1.3.1
     # via matplotlib
 coverage==7.6.12
     # via pytest-cov
 cycler==0.12.1
     # via matplotlib
+faicons==0.2.2
+    # via great-tables
 fonttools==4.56.0
     # via matplotlib
+great-tables==0.20.0
+    # via nemreport (pyproject.toml)
+htmltools==0.6.0
+    # via
+    #   faicons
+    #   great-tables
+importlib-metadata==8.7.0
+    # via great-tables
+importlib-resources==6.5.2
+    # via great-tables
 iniconfig==2.0.0
     # via pytest
 jinja2==3.1.5
@@ -33,10 +49,6 @@ matplotlib==3.10.1
     # via calplot
 mdurl==0.1.2
     # via markdown-it-py
-mypy==1.15.0
-    # via nemreport (pyproject.toml)
-mypy-extensions==1.0.0
-    # via mypy
 narwhals==1.28.0
     # via plotly
 nemreader==0.9.2
@@ -49,6 +61,7 @@ numpy==2.2.3
     #   pandas
 packaging==24.2
     # via
+    #   htmltools
     #   matplotlib
     #   plotly
     #   pytest
@@ -65,6 +78,10 @@ pluggy==1.5.0
     # via
     #   pytest
     #   sqlite-utils
+polars==1.35.2
+    # via nemreport (pyproject.toml)
+polars-runtime-32==1.35.2
+    # via polars
 pydantic==2.10.6
     # via nemreport (pyproject.toml)
 pydantic-core==2.27.2
@@ -108,9 +125,12 @@ typer==0.15.2
     #   nemreader
 typing-extensions==4.12.2
     # via
-    #   mypy
+    #   great-tables
+    #   htmltools
     #   pydantic
     #   pydantic-core
     #   typer
 tzdata==2025.1
     # via pandas
+zipp==3.23.0
+    # via importlib-metadata
