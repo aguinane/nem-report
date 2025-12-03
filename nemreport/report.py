@@ -2,7 +2,7 @@ import logging
 import shutil
 import webbrowser
 from calendar import monthrange
-from datetime import datetime, time
+from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
@@ -14,7 +14,12 @@ from jinja2 import Environment, FileSystemLoader
 from nemreader import extend_sqlite
 from nemreader.output_db import get_nmis
 
-from energycharts import daily_calendar_chart
+from energycharts import (
+    daily_calendar_chart,
+    heatmap_chart,
+    load_duration_chart,
+    time_of_day_scatter_chart,
+)
 
 from .model import (
     DB_PATH,
@@ -67,7 +72,7 @@ def build_daily_usage_chart(nmi: str, kind: str) -> Path | None:
 
     if kind == "export" and max(data) == 0.0:
         return None
-    
+
     fig = daily_calendar_chart(days, values=data, title=f"Daily kWh for {nmi} ({kind})")
     file_path = output_dir / f"{nmi}_daily_{kind}.png"
     fig.savefig(file_path, bbox_inches="tight")
@@ -131,7 +136,10 @@ def load_duration_curve(nmi: str) -> go.Figure:
 
 def build_load_duration_curve(nmi: str) -> str:
     """Save profile plot"""
-    fig = load_duration_curve(nmi)
+    df = get_day_profiles(nmi)
+    fig = load_duration_chart(
+        df.index.to_list(), df["Avg kW"].to_list(), "Load Duration Curve"
+    )
     file_path = output_dir / f"{nmi}_load_duration_curve.html"
     fig.write_html(file_path, full_html=False, include_plotlyjs="cdn")
     log.info("Created %s", file_path)
@@ -141,12 +149,9 @@ def build_load_duration_curve(nmi: str) -> str:
 def build_days_profiles_plot(nmi: str) -> str:
     """Save profile plot"""
     df = get_day_profiles(nmi)
-    fig = px.line(df, x="time", y="Avg kW", color="day")
-    x_values = ["04:00", "09:00", "16:00", "21:00"]
-    for x in x_values:
-        fig.add_vline(x=x, line_width=1, line_dash="dash", line_color="black")
-    fig.update_xaxes(dtick=12)
-    fig.update_traces(line_color="royalblue", showlegend=False)
+    fig = time_of_day_scatter_chart(
+        df["time"].to_list(), df["Avg kW"].to_list(), "Daily Profiles"
+    )
     file_path = output_dir / f"{nmi}_days_profiles.html"
     fig.write_html(file_path, full_html=False, include_plotlyjs="cdn")
     log.info("Created %s", file_path)
@@ -196,61 +201,17 @@ def build_daily_plot(nmi: str) -> str:
     return file_path
 
 
-def usage_heatmap(nmi: str) -> go.Figure:
-    df = get_usage_df(nmi)
-    df["power"] = df["consumption"] + df["export"]
-    df["power"] = df["power"].apply(lambda x: x * 12)
-    has_export = len(df["export"].unique()) > 1
-    colorscale = "Geyser" if has_export else "YlOrRd"
-    midpoint = 0.0 if has_export else None
-    start, end = get_date_range(nmi)
-    numdays = (end - start).days
-    nbinsx = 96
-    nbinsy = numdays
-    width = 800
-    height = 200 + int(numdays * 0.5)
-    fig = px.density_heatmap(
-        df,
-        width=width,
-        height=height,
-        x=df.index.time,
-        y=df.index.date,
-        z=df["power"],
-        nbinsx=nbinsx,
-        nbinsy=nbinsy,
-        histfunc="avg",
-        color_continuous_scale=colorscale,
-        color_continuous_midpoint=midpoint,
-    )
-
-    datemin = min(df.index.date)
-    datemax = max(df.index.date)
-    x_values = [time(4, 0), time(9, 0), time(16, 0), time(21, 0)]
-    for x in x_values:
-        fig.add_shape(
-            type="line",
-            x0=x,
-            y0=datemin,
-            x1=x,
-            y1=datemax,
-            line=dict(color="black", width=1, dash="dash"),
-        )
-
-    fig.update_layout(
-        xaxis_title=None,
-        yaxis_title=None,
-        margin=dict(l=20, r=20, t=20, b=20),
-    )
-    fig.update_layout(coloraxis=dict(colorbar=dict(title="kW")))
-    fig.update_yaxes(dtick="M1", tickformat="%b\n%Y", ticklabelmode="period")
-    fig.update_xaxes(dtick=12, tickformat="%H:%M")
-    return fig
-
-
 def build_usage_heatmap(nmi: str) -> str:
     """Save heatmap of power usage"""
 
-    fig = usage_heatmap(nmi)
+    df = get_usage_df(nmi)
+    df["power"] = df["consumption"] + df["export"]
+    df["power"] = df["power"].apply(lambda x: x * 12)
+    fig = heatmap_chart(
+        df.index.to_list(),
+        df["power"].to_list(),
+        "Heatmap Example",
+    )
     file_path = output_dir / f"{nmi}_usage_heatmap.html"
     fig.write_html(file_path, full_html=False, include_plotlyjs="cdn")
     log.info("Created %s", file_path)
