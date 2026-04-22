@@ -11,8 +11,6 @@ import plotly.graph_objects as go
 import polars as pl
 from great_tables import GT
 from jinja2 import Environment, FileSystemLoader
-from nemreader import extend_sqlite
-from nemreader.output_db import get_nmis
 
 from energycharts import (
     daily_calendar_chart,
@@ -32,6 +30,7 @@ from .model import (
     get_season_data,
     get_usage_df,
 )
+from .output_db import extend_sqlite, get_nmis
 from .prepare_db import update_nem_database
 
 log = logging.getLogger(__name__)

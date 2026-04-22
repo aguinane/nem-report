@@ -5,9 +5,10 @@ from pathlib import Path
 
 import pandas as pd
 from dateutil.parser import isoparse
-from nemreader.output_db import get_nmi_channels, get_nmi_readings
 from pydantic import BaseModel
 from sqlite_utils import Database
+
+from .output_db import get_nmi_channels, get_nmi_readings
 
 data_dir = Path("data/")
 data_dir.mkdir(exist_ok=True)

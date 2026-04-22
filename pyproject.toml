@@ -10,29 +10,29 @@ license = { file = "LICENSE" }
 classifiers = [
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.13",
     "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.10",
     "Operating System :: OS Independent",
 ]
 keywords = ["energy", "NEM12", "NEM13"]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dynamic = ["version", "description"]
 dependencies = [
     "calplot",
     "jinja2",
-    "nemreader>=0.8.7",
+    "nemreader>=0.9.2",
     "pandas",
     "great_tables",
     "polars",
     "plotly",
-    "pydantic",
-    "sqlite_utils",
-    "typer",
+    "pydantic>=2.13.3",
+    "sqlite_utils>=3.39",
+    "typer>=0.24.1",
 ]
 
 [project.optional-dependencies]
-test = ["pytest >=2.7.3", "pytest-cov", "ruff"]
+test = ["pytest>=2.7.3", "pytest-cov>=7.1.0"]
 
 [project.urls]
 Source = "https://github.com/aguinane/energy-report"

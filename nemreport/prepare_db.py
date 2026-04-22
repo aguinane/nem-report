@@ -1,7 +1,8 @@
 from pathlib import Path
 
-from nemreader import extend_sqlite, output_folder_as_sqlite
 from sqlite_utils import Database
+
+from .output_db import extend_sqlite, output_folder_as_sqlite
 
 DEFAULT_DIR = Path("data/")
 
