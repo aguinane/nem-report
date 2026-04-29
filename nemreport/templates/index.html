@@ -13,7 +13,7 @@
             href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
         />
 
-        {% if nmis|length == 1 %}
+        {% if nmi_count < 2 %}
         <!-- Only 1 NMI so redirect -->
         <meta http-equiv="refresh" content="0; url={{first_nmi}}.html" />
         {% endif %}

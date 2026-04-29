@@ -1,4 +1,9 @@
-# energy-report
+# nem-report
+
+[![PyPI version](https://img.shields.io/pypi/pyversions/nemreport)][pypi]
+[![PyPi downloads](https://img.shields.io/pypi/dw/nemreport)][pypi]
+
+[pypi]: https://pypi.org/project/nemreport/
 
 Generate energy report from NEM meter data files
 
@@ -21,6 +26,12 @@ Copy your NEM12 file(s) into a `data/` folder and then run:
 
 ```sh
 python -m nemreport build
+```
+
+If you add any files to the folder after the first time you run it you'll need to run the following to refresh the data:
+
+```sh
+python -m nemreport update-db
 ```
 
 ## Output
