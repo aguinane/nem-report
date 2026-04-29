@@ -9,7 +9,7 @@ from .version import __version__
 
 LOG_FORMAT = "%(asctime)s %(levelname)-8s %(message)s"
 logging.basicConfig(level="INFO", format=LOG_FORMAT)
-app = typer.Typer()
+app = typer.Typer(no_args_is_help=True)
 DEFAULT_DIR = Path(".")
 
 
@@ -32,11 +32,13 @@ def callback(
 
 @app.command()
 def update_db() -> None:
+    """Update the sqlite file based on NEM12 files in data folder"""
     fp = update_nem_database()
     typer.echo(f"Updated {fp}")
 
 
 @app.command()
 def build() -> None:
+    """Build the energy report"""
     fp = build_reports()
     typer.echo(f"Created {fp}")

@@ -389,7 +389,8 @@ def build_report(nmi: str, static_mode: bool = True):
 
 def build_index(nmis: list[str]):
     template = env.get_template("index.html")
-    output_html = template.render(nmis=nmis)
+    first_nmi = next(iter(nmis))
+    output_html = template.render(nmis=nmis, first_nmi=first_nmi)
     file_path = output_dir / "index.html"
     with open(file_path, "w", encoding="utf-8") as fh:
         fh.write(output_html)

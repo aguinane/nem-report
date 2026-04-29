@@ -1,34 +1,36 @@
 <!doctype html>
 <html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
+        />
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+        {% if nmis|length == 1 %}
+        <!-- Only 1 NMI so redirect -->
+        <meta http-equiv="refresh" content="0; url={{first_nmi}}.html" />
+        {% endif %}
 
-    {% if nmis|length == 1 %}
-    <!-- Only 1 NMI so redirect -->
-    <meta http-equiv="refresh" content="0; url={{nmis[0]}}.html" />
-    {% endif %}
+        <title>Energy Reports</title>
+    </head>
 
-    <title>Energy Reports</title>
-</head>
+    <body>
+        <div class="container">
+            <h1>Energy Reports</h1>
 
-<body>
-    <div class="container">
-
-        <h1>Energy Reports</h1>
-
-        <ul>
-            {% for nmi in nmis %}
-            <li><a href="{{nmi}}.html">{{nmi}}</a></li>
-            {% endfor %}
-        </ul>
-
-    </div><!-- Container -->
-
-</body>
-
+            <ul>
+                {% for nmi in nmis %}
+                <li><a href="{{nmi}}.html">{{nmi}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Container -->
+    </body>
 </html>

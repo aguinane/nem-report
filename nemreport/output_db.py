@@ -205,13 +205,6 @@ def calc_nmi_daily_summary(db_path: Path, nmi: str):
 def extend_sqlite(db_path: Path) -> None:
     """Add summary tables to SQLite DB export"""
     db = Database(db_path)
-    nmis = get_nmis(db_path)
-    for nmi in nmis:
-        items = calc_nmi_daily_summary(db_path, nmi)
-        db["daily_reads"].upsert_all(
-            items, pk=("nmi", "day"), column_order=("nmi", "day")
-        )
-    logging.info("Updated day data")
 
     db.create_view(
         "nmi_summary",
@@ -223,10 +216,18 @@ def extend_sqlite(db_path: Path) -> None:
         replace=True,
     )
 
+    nmis = get_nmis(db_path)
+    for nmi in nmis:
+        items = calc_nmi_daily_summary(db_path, nmi)
+        db["daily_reads"].upsert_all(
+            items, pk=("nmi", "day"), column_order=("nmi", "day")
+        )
+    logging.info("Updated day data")
+
     db.create_view(
         "combined_readings",
         """
-    SELECT nmi, t_start, t_end, 
+    SELECT nmi, t_start, t_end,
     SUM(CASE WHEN substr(channel,1,1) = 'B' THEN -1 * value ELSE value END) as value
     FROM readings
     GROUP BY nmi, t_start, t_end

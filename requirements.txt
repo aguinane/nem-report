@@ -8,7 +8,7 @@ babel==2.18.0
     # via great-tables
 calplot==0.1.7.5
     # via nemreport (pyproject.toml)
-click==8.3.2
+click==8.3.3
     # via
     #   click-default-group
     #   sqlite-utils
@@ -47,13 +47,13 @@ markdown-it-py==4.0.0
     # via rich
 markupsafe==3.0.3
     # via jinja2
-matplotlib==3.10.8
+matplotlib==3.10.9
     # via calplot
 mdurl==0.1.2
     # via markdown-it-py
 narwhals==2.20.0
     # via plotly
-nemreader==0.9.2
+nemreader==1.0.0
     # via nemreport (pyproject.toml)
 numpy==2.4.4
     # via
@@ -61,7 +61,7 @@ numpy==2.4.4
     #   contourpy
     #   matplotlib
     #   pandas
-packaging==26.1
+packaging==26.2
     # via
     #   htmltools
     #   matplotlib
@@ -71,10 +71,9 @@ pandas==3.0.2
     # via
     #   nemreport (pyproject.toml)
     #   calplot
-    #   nemreader
 pillow==12.2.0
     # via matplotlib
-pip==26.0.1
+pip==26.1
     # via sqlite-utils
 plotly==6.7.0
     # via nemreport (pyproject.toml)
@@ -83,9 +82,11 @@ pluggy==1.6.0
     #   pytest
     #   pytest-cov
     #   sqlite-utils
-polars==1.40.0
-    # via nemreport (pyproject.toml)
-polars-runtime-32==1.40.0
+polars==1.40.1
+    # via
+    #   nemreport (pyproject.toml)
+    #   nemreader
+polars-runtime-32==1.40.1
     # via polars
 pydantic==2.13.3
     # via nemreport (pyproject.toml)
@@ -110,8 +111,6 @@ python-dateutil==2.9.0.post0
     #   sqlite-utils
 rich==15.0.0
     # via typer
-ruff==0.15.11
-    # via nemreport (pyproject.toml)
 shellingham==1.5.4
     # via typer
 six==1.17.0
@@ -119,12 +118,10 @@ six==1.17.0
 sqlite-fts4==1.0.3
     # via sqlite-utils
 sqlite-utils==3.39
-    # via
-    #   nemreport (pyproject.toml)
-    #   nemreader
+    # via nemreport (pyproject.toml)
 tabulate==0.10.0
     # via sqlite-utils
-typer==0.24.1
+typer==0.25.0
     # via
     #   nemreport (pyproject.toml)
     #   nemreader
